@@ -1,0 +1,72 @@
+# @package _global_
+
+user: ${oc.env:USER}
+resume: ""
+device: 0
+video: False
+num_eval_episodes: 5
+dm_control: True
+env: cheetah_run
+wandb: False
+from_pixels: True
+pixels_width: 64
+action_repeat: 2
+batch_size: 50
+batch_length: 50
+train_steps: 100
+eval_every: 10000
+seed: 0
+formal_save: False
+
+# creating POMDP
+flicker: 0.
+noise: 0.
+missing: 0.
+
+#### for policy optimization such as SAC
+dreamer: 0
+lr: 0.0003
+tau: 0.005
+alpha: -1 # negative means use entropy auto tuning, positive means entropy coefficient
+init_alpha: 1.0
+num_steps: 1000001
+updates_per_step: 1
+start_steps: 10000
+
+##### for world model
+num_units: 300 
+deter_size: 200  # RNN hidden size
+stoch_size: 30 
+rssm_std: 0.1
+
+##### for dreamer=0 (dreamer)
+ts: False  # use thompson sampling
+
+##### for dreamer=2 (SMAC)
+pazent: 0.  # log p(a|o) - pazent * log p(a|z)
+estimate: nmlmc  # naive or mlmc
+num_p: 32
+start_l: 1 # for MLMC
+nmode: 1
+qagg: lse  # lse means logsumexp
+aggfirst: False 
+
+
+# cluster
+ngpus: 1
+partt: learnlab  # or devlab
+
+hydra:
+  run:
+    dir: ./outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}
+  sweep:
+    dir: /checkpoint/${user}/RL-LVM/dreamer/${now:%Y.%m.%d}/${now:%H.%M.%S}
+    subdir: ${hydra.job.override_dirname}
+  
+  launcher:
+    max_num_timeout: 100000
+    timeout_min: 4319
+    partition: ${partt}
+    mem_gb: 64
+    cpus_per_task: 10
+    gpus_per_node: ${ngpus}

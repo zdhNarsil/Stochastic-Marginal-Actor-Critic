@@ -1,0 +1,4 @@
+defaults:
+  - default: default
+  - override hydra/launcher: submitit_slurm
+  # - override hydra/job_logging: custom

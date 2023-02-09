@@ -1,0 +1,15 @@
+dm_control==1.0.10
+mujoco==2.3.2
+mujoco-py==2.1.2.14
+hydra-core==1.1.0
+hydra-submitit-launcher==1.2.0
+submitit==1.4.2
+omegaconf==2.1.2
+torch==1.12.1
+torchvision==0.13.0
+pyglet==1.5.26
+gym==0.21.0
+imageio==2.19.3
+imageio-ffmpeg==0.4.7
+termcolor==1.1.0
+wandb
